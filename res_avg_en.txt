@@ -1,0 +1,10 @@
+en/en0.txt < > en/en19.txt 6.5185546875
+en/en1.txt < > en/en18.txt 7.243024997318452
+en/en2.txt < > en/en17.txt 6.400627286435954
+en/en3.txt < > en/en16.txt 6.563063873201899
+en/en4.txt < > en/en15.txt 6.708849441157133
+en/en5.txt < > en/en14.txt 6.582986875887867
+en/en6.txt < > en/en13.txt 6.692741857373051
+en/en7.txt < > en/en12.txt 6.873259833994613
+en/en8.txt < > en/en11.txt 6.642797321713252
+en/en9.txt < > en/en10.txt 6.659212544511817

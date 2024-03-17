@@ -1,0 +1,10 @@
+ru/ru0.txt < > ru/ru19.txt 5.675442953884733
+ru/ru1.txt < > ru/ru18.txt 5.598241208570395
+ru/ru2.txt < > ru/ru17.txt 5.813061830968757
+ru/ru3.txt < > ru/ru16.txt 5.69212880027066
+ru/ru4.txt < > ru/ru15.txt 5.430139306545765
+ru/ru5.txt < > ru/ru14.txt 5.5008833529997965
+ru/ru6.txt < > ru/ru13.txt 5.617297204037229
+ru/ru7.txt < > ru/ru12.txt 5.722561983471076
+ru/ru8.txt < > ru/ru11.txt 5.699963039822049
+ru/ru9.txt < > ru/ru10.txt 5.605730390810211

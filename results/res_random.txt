@@ -1,0 +1,10 @@
+random/random0.txt < > random/random19.txt 1.0999999999999999
+random/random1.txt < > random/random18.txt 1.0
+random/random2.txt < > random/random17.txt 0.5
+random/random3.txt < > random/random16.txt 1.5
+random/random4.txt < > random/random15.txt 0.8999999999999999
+random/random5.txt < > random/random14.txt 0.8999999999999999
+random/random6.txt < > random/random13.txt 1.0
+random/random7.txt < > random/random12.txt 1.5
+random/random8.txt < > random/random11.txt 1.5
+random/random9.txt < > random/random10.txt 1.2
