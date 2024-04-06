@@ -101,19 +101,16 @@ def get_sup_table(k):
     enc = list(enc)
     enc_k = []
     for j in range(len(enc) // k):
-        enc_k.append(enc[j:j + k])
+        enc_k.append(enc[j * k:j * k + k])
 
     for row in range(k):
         print(enc_k[row])
-    # print(bigrams)
+
     for i in range(k):
         for j in range(k):
             for l in range(k):
                 if i == j or (enc_k[l][i] + enc_k[l][j] in bigrams):
-                    # print(i + 1, j + 1, l + 1, enc_k[l][i] + enc_k[l][j])
                     table[i][j] = 'X'
-                    # for row in table:
-                    #     print(''.join(row))
 
     print('Вспомогательная таблица:')
     with open("sup_table.txt", 'w') as f:
@@ -122,8 +119,58 @@ def get_sup_table(k):
             f.write(''.join(row) + '\n')
 
 
-def get_keys_tree():
-    pass
+def build_tree1(k):
+    with open("sup_table.txt", 'r') as f:
+        table = []
+        for _ in range(k):
+            row = f.readline()
+            table.append(row[:-1])
+    print(table)
+    keys = []
+
+    def build_tree(table, current_path, visited):
+        if len(current_path) == k:
+            return [current_path[:]]
+
+        keys = []
+        for j in range(k):
+            if table[current_path[-1]][j] == '0' and not visited[j]:
+                visited[j] = True
+                current_path.append(j)
+                keys.extend(build_tree(table, current_path, visited))
+                current_path.pop()
+                visited[j] = False
+        return keys
+
+    for i in range(k):
+        visited = [False] * k
+        visited[i] = True
+        keys.extend(build_tree(table, [i], visited))
+
+
+    writef('keys.txt', {'keys': keys})
+
+
+def try_decrypt(k):
+    keys = readf('keys.txt')['keys']
+    with open('keys.txt', 'r') as keys_file:
+        pass
+
+    with open("enc_text.txt", "r") as f:
+        enc = f.read()
+
+    f = open("dec_text.txt", 'w+')
+    base = [i for i in range(k)]
+    for key in keys:
+        f.write('\n' + str(key) + ":\n    ")
+        for i in range(len(enc) // k):
+            enc_block = enc[i * k:(i + 1) * k]
+            block = [""] * k
+            for j in range(len(enc_block)):
+                block[j] = enc_block[key[j]]
+            f.write(''.join(block))
+
+    f.close()
 
 
 k = 5
@@ -131,5 +178,7 @@ k = 5
 # find_forbidden_bigrams()
 # gen_key(k)
 # encrypt()
-get_sup_table(k)
-decrypt(k)
+# get_sup_table(k)
+# decrypt(k)
+build_tree1(k)
+try_decrypt(k)
