@@ -70,6 +70,7 @@ def get_alphabet():
 
 
 def find_forbidden_bigrams():
+    get_alphabet()
     alphabet = readf('alphabet.txt')['alphabet']
     all_bigrams = set()
     for a, b in combinations_with_replacement(alphabet, 2):
@@ -92,8 +93,9 @@ def find_all_bigrams_in_text():
     return bigrams
 
 
-def get_sup_table(k):
+def get_sup_table():
     bigrams = readf("forbidden_bigrams.txt")['bigrams']
+    k = len(readf('key1.txt')['k'])
     table = [['0'] * k for _ in range(k)]
     with open("enc_text.txt", 'r') as enc_file:
         enc = enc_file.read().upper()
@@ -119,7 +121,8 @@ def get_sup_table(k):
             f.write(''.join(row) + '\n')
 
 
-def build_tree1(k):
+def build_tree1():
+    k = len(readf('key1.txt')['k'])
     with open("sup_table.txt", 'r') as f:
         table = []
         for _ in range(k):
@@ -151,7 +154,8 @@ def build_tree1(k):
     writef('keys.txt', {'keys': keys})
 
 
-def try_decrypt(k):
+def try_decrypt():
+    k = len(readf('key1.txt')['k'])
     keys = readf('keys.txt')['keys']
     with open('keys.txt', 'r') as keys_file:
         pass
@@ -174,11 +178,29 @@ def try_decrypt(k):
 
 
 k = 5
-# get_alphabet()
-# find_forbidden_bigrams()
-# gen_key(k)
-# encrypt()
-# get_sup_table(k)
-# decrypt(k)
-build_tree1(k)
-try_decrypt(k)
+print('Выберите действие: ')
+print('1 - сгенерировать ключ шифрования')
+print('2 - зашифровать текст')
+print('3 - вычислить множество запретных биграмм')
+print('4 - построить вспомогательную таблицу')
+print('5 - построить возможные перестановки')
+print('6 - попытаться расшифровать')
+
+while True:
+    action = int(input('> введите номер действия '))
+    if action == 1:
+        gen_key(int(input('Введите длину ключа к ')))
+    elif action == 2:
+        encrypt()
+    elif action == 3:
+        find_forbidden_bigrams()
+    elif action == 4:
+        get_sup_table()
+    elif action == 5:
+        build_tree1()
+    elif action == 6:
+        try_decrypt()
+    else:
+        break
+
+
