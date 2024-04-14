@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
+import re
 
 
 def writef(filename, data):
@@ -21,12 +22,6 @@ def get_alphabet():
 
     writef("alphabet.txt", {'alphabet': alphabet})
     return alphabet
-
-
-# def get_alphabet2(text):
-#     alphabet = ''.join(sorted(list(set(text))))
-#
-#     return alphabet
 
 
 def frequency(file):
@@ -63,7 +58,6 @@ def frequency2(text):
     return freq
 
 
-
 def vigenere_cipher(mode):
     result = ''
     key_index = 0
@@ -94,6 +88,19 @@ def shift_lst(lst, sh):
     return lst[-sh:] + lst[:-sh]
 
 
+def word_freq():
+    with open('big_text2.txt', 'r', encoding='utf-8') as f:
+        big_text = f.read().lower()
+    freq = dict()
+    match_pattern = re.findall(r'\b[а-я]{3,15}\b', big_text)
+    for word in match_pattern:
+        count = freq.get(word, 0)
+        freq[word] = count + 1
+
+    freq = dict(sorted(freq.items(), key=lambda item: item[1], reverse=True))
+    writef('words_freq.txt', freq)
+
+
 def freq_attack(k):
     alphabet = readf('alphabet.txt')['alphabet']
     n = len(alphabet)
@@ -122,7 +129,74 @@ def freq_attack(k):
     writef('keys5.txt', {'keys': keys})
 
 
+def word_attack(k, word):
+    with open('enc_text.txt', 'r', encoding='utf-8') as f:
+        enc_text = f.read()
+    # words_freq = readf('words_freq.txt')
+    alphabet = readf('alphabet.txt')['alphabet']
+    n = len(alphabet)
+
+    keys = []
+
+    for t in range(len(enc_text) // k):
+        y = enc_text[t * k:t * k + k]
+        for j in range(k):
+            x = shift_lst(word, j)
+            key = ''
+            for i in range(k):
+                key += alphabet[(alphabet.index(y[i]) - alphabet.index(x[i])) % n]
+            keys.append(key)
+    writef('keys5_2.txt', {'keys': keys})
+    # decs = dict()
+    # key_index = 0
+    # for key in keys:
+    #     result = ''
+    #     for char in enc_text:
+    #         if char in alphabet:
+    #             char_index = (alphabet.index(char) - alphabet.index(key[key_index])) % len(alphabet)
+    #             result += alphabet[char_index]
+    #             key_index = (key_index + 1) % k
+    #         else:
+    #             result += char
+    #     decs[key] = result
+    # writef('dec_text5.txt', decs)
+
+
+
 # get_alphabet()
 # frequency('big_text.txt')
 # vigenere_cipher('encrypt')
-freq_attack(7)
+#
+#
+word_attack(7, 'человек')
+
+print('Выберите действие: ')
+print('1 - получить алфавит открытого текста')
+print('2 - зашифровать текст')
+print('3 - вычислить частоты большого открытого текста')
+print('4 - вычислить частоты шифротекста')
+print('5 - атака по частотному анализу')
+print('6 - вычислить частоты слов открытого текста')
+print('7 - атака по вероятному слову')
+
+while True:
+    action = int(input('> введите номер действия '))
+    if action == 1:
+        get_alphabet()
+    elif action == 2:
+        vigenere_cipher('encrypt')
+    elif action == 3:
+        frequency('big_text.txt')
+    elif action == 4:
+        frequency('enc_text.txt')
+    elif action == 5:
+        k = int(input('Введите длину ключа '))
+        freq_attack(k)
+    elif action == 6:
+        word_freq()
+    elif action == 7:
+        k = int(input('Введите длину ключа '))
+        word = input('Введите вероятное слово ')
+        word_attack(k, word)
+    else:
+        break
