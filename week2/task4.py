@@ -68,13 +68,13 @@ def frequency(file):
 
     freq = dict(sorted(freq.items(), key=lambda item: item[1], reverse=True))
 
-    writef('freq_' + file + '.txt', freq)
+    writef('freq_' + file, freq)
 
 
 def isotonic_maps():
     alphabet = readf('alphabet.txt')['alphabet']
-    freq_big_text = readf('freq_big_text.txt.txt')
-    freq_enc_text = readf('freq_enc_text.txt.txt')
+    freq_big_text = readf('freq_big_text.txt')
+    freq_enc_text = readf('freq_enc_text.txt')
 
     n = len(alphabet)
     keys = []
