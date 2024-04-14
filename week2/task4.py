@@ -16,7 +16,7 @@ def readf(filename):
 def get_alphabet():
     with open("open_text.txt", 'r', encoding='utf-8') as file:
         text = file.read()
-        alphabet = ''.join(set(text))
+        alphabet = ''.join(sorted(list(set(text))))
 
     writef("alphabet.txt", {'alphabet': alphabet})
     return alphabet
@@ -40,7 +40,7 @@ def encrypt():
     shift = readf('key4.txt')['shift']
     n = len(alphabet)
 
-    alph_num = dict(zip(alphabet.upper(), [i for i in range(n)]))
+    alph_num = dict(zip(alphabet, [i for i in range(n)]))
     num_shift = dict(zip([i for i in range(n)], shift))
     print(alph_num)
     print(num_shift)
@@ -50,14 +50,14 @@ def encrypt():
 
     with open('enc_text.txt', 'w+', encoding='utf-8') as f:
         for c in open_text:
-            f.write(num_shift[alph_num[c.upper()]])
+            f.write(num_shift[alph_num[c]])
 
 
 def frequency(file):
     alphabet = readf('alphabet.txt')['alphabet']
     freq = dict(zip(alphabet, [0] * len(alphabet)))
     with open(file, 'r', encoding='utf-8') as f:
-        text = f.read().upper()
+        text = f.read()
         n = len(text)
         for c in text:
             if c in freq.keys():
@@ -73,28 +73,74 @@ def frequency(file):
 
 def isotonic_maps():
     alphabet = readf('alphabet.txt')['alphabet']
-    shift = readf('key4.txt')['shift']
     freq_big_text = readf('freq_big_text.txt.txt')
     freq_enc_text = readf('freq_enc_text.txt.txt')
 
     n = len(alphabet)
-    alph_num = dict(zip(alphabet.upper(), [i for i in range(n)]))
     keys = []
 
-    freq_lst_bt = list(freq_big_text.keys())
+    # freq_lst_bt = list(freq_big_text.keys())
+    most = list(freq_big_text.keys())[0]
     freq_lst_et = list(freq_enc_text.keys())
     for i in range(n):
-        key = dict(zip(freq_lst_bt, shift_lst(freq_lst_et, -i)))
-        keys.append(key)
+        sh = (alphabet.index(freq_lst_et[i]) - alphabet.index(most)) % n
+        keys.append(shift_lst(alphabet, (sh - n) % n))
+
     writef('keys4.txt', {'keys': keys})
 
-def try_encrypt():
-    pass
+
+def try_decrypt():
+    keys = readf('keys4.txt')['keys']
+
+    alphabet = readf('alphabet.txt')['alphabet']
+    n = len(alphabet)
+    alph_num = dict(zip(alphabet, [i for i in range(n)]))
+
+    with open('enc_text.txt', 'r', encoding='utf-8') as f:
+        enc_text = f.read()
+
+    with open('dec_text.txt', 'w+', encoding='utf-8') as f:
+        for key in keys:
+            num_shift = dict(zip([i for i in range(n)], key))
+            f.write('\n==========================================================\n')
+            f.write('Ключ + ' + str(key))
+            for c in enc_text:
+                f.write(num_shift[alph_num[c]])
 
 
-# get_alphabet()
-# enter_key()
-# encrypt()
-# frequency('big_text.txt')
-# frequency('enc_text.txt')
-isotonic_maps()
+
+#
+#
+#
+#
+#
+#
+
+
+print('Выберите действие: ')
+print('0 - получить алфавит открытого текста')
+print('1 - сгенерировать ключ (сдвиг) шифрования')
+print('2 - зашифровать текст')
+print('3 - вычислить частоты большого открытого текста')
+print('4 - вычислить частоты шифротекста')
+print('5 - построить возможные ключи')
+print('6 - попытаться расшифровать')
+
+while True:
+    action = int(input('> введите номер действия '))
+    if action == 0:
+        get_alphabet()
+    elif action == 1:
+        enter_key()
+    elif action == 2:
+        encrypt()
+    elif action == 3:
+        frequency('big_text.txt')
+    elif action == 4:
+        frequency('enc_text.txt')
+    elif action == 5:
+        isotonic_maps()
+    elif action == 6:
+        try_decrypt()
+    else:
+        break
