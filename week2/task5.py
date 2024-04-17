@@ -162,15 +162,8 @@ def word_attack(k, word):
     # writef('dec_text5.txt', decs)
 
 
-
-# get_alphabet()
-# frequency('big_text.txt')
-# vigenere_cipher('encrypt')
-#
-#
-word_attack(7, 'человек')
-
 print('Выберите действие: ')
+print('0 - ввести ключ')
 print('1 - получить алфавит открытого текста')
 print('2 - зашифровать текст')
 print('3 - вычислить частоты большого открытого текста')
@@ -181,7 +174,10 @@ print('7 - атака по вероятному слову')
 
 while True:
     action = int(input('> введите номер действия '))
-    if action == 1:
+    if action == 0:
+        with open('key5.txt', 'w') as f:
+            f.write(input('Введите ключ '))
+    elif action == 1:
         get_alphabet()
     elif action == 2:
         vigenere_cipher('encrypt')

@@ -2,9 +2,10 @@ import json
 from random import shuffle
 from itertools import permutations, combinations_with_replacement
 
+
 def writef(filename, data):
     with open(filename, 'w') as f:
-        json.dump(data, f)
+        json.dump(data, f, indent=1, ensure_ascii=False)
     print(f'В {filename} было записано {data}')
 
 
@@ -104,9 +105,6 @@ def get_sup_table():
     enc_k = []
     for j in range(len(enc) // k):
         enc_k.append(enc[j * k:j * k + k])
-
-    for row in range(k):
-        print(enc_k[row])
 
     for i in range(k):
         for j in range(k):

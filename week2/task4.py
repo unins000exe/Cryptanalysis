@@ -42,8 +42,6 @@ def encrypt():
 
     alph_num = dict(zip(alphabet, [i for i in range(n)]))
     num_shift = dict(zip([i for i in range(n)], shift))
-    print(alph_num)
-    print(num_shift)
 
     with open('open_text.txt', 'r', encoding='utf-8') as f:
         open_text = f.read()
@@ -99,22 +97,13 @@ def try_decrypt():
     with open('enc_text.txt', 'r', encoding='utf-8') as f:
         enc_text = f.read()
 
-    with open('dec_text.txt', 'w+', encoding='utf-8') as f:
+    with open('dec_text4.txt', 'w+', encoding='utf-8') as f:
         for key in keys:
             num_shift = dict(zip([i for i in range(n)], key))
             f.write('\n==========================================================\n')
-            f.write('Ключ + ' + str(key))
+            f.write('Ключ ' + str(key))
             for c in enc_text:
                 f.write(num_shift[alph_num[c]])
-
-
-
-#
-#
-#
-#
-#
-#
 
 
 print('Выберите действие: ')
