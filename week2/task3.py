@@ -81,7 +81,7 @@ def find_forbidden_bigrams():
 
 
 def find_all_bigrams_in_text():
-    with open("open_text.txt", 'r', encoding='utf-8') as file:
+    with open("big_text2.txt", 'r', encoding='utf-8') as file:
         text = []
         for line in file:
             text.append(list(line.upper()))

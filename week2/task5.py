@@ -137,11 +137,14 @@ def word_attack(k, word):
     n = len(alphabet)
 
     keys = []
+    long_word = ''
+    for i in range(k):
+        long_word += word[i % len(word)]
 
     for t in range(len(enc_text) // k):
         y = enc_text[t * k:t * k + k]
         for j in range(k):
-            x = shift_lst(word, j)
+            x = shift_lst(long_word, j)
             key = ''
             for i in range(k):
                 key += alphabet[(alphabet.index(y[i]) - alphabet.index(x[i])) % n]
