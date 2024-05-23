@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
-from itertools import combinations_with_replacement
-from math import prod
+from math import prod, gcd
 
 
 def sieve_of_erato(n):
@@ -42,8 +41,10 @@ while True:
         t = int(input('Введите число простых множителей t '))
         primes = readf('prime_base.json')['primes']
         mult_base = {}
-        for mult in combinations_with_replacement(primes, t):
-            mult_base[prod(mult)] = mult
+        for i in range(len(primes) // t):
+            t_primes = primes[i * t:(i + 1) * t]
+            mult_base[prod(t_primes)] = t_primes
+        print(mult_base)
 
         writef('mult_base.json', mult_base)
     elif opt == 2:
@@ -52,10 +53,19 @@ while True:
         if str(n) in list(mult_base.keys()):
             print(mult_base[str(n)])
         else:
-            print('Не удалось разложить число')
+            ds = []
+
+            for _ in range(10):
+                for q in [int(i) for i in list(mult_base.keys())]:
+                    d = gcd(n, q)
+                    if d != 1:
+                        n //= d
+                        ds.append(d)
+            if n != 1:
+                ds.append(n)
+
+            print(ds)
     else:
         break
 
-
-
-
+# 9345824521343

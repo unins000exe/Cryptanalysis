@@ -157,8 +157,5 @@ if __name__ == '__main__':
     print('Факторизация (p-1)-методом Полларда', pp1_factorization(n))
     print(f'{time.time() - time0} секунд.\n')
 
-    # time0 = time.time()
-    # print('Факторизация алгоритмом Бриллхарта-Моррисона', p_rho_factorization(n, 0.01))
-    # print(f'{(time.time() - time0) * 5} секунд.\n')
 
 
